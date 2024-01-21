@@ -24,13 +24,13 @@ pip install -r requirements.txt
 Запустить скрипт можно используя команду:
 
 ```
-python tululu.py
+python parser_tululu.py
 ```
 
 Можно использовать сокращенную запись:
 
 ```
-python tululu.py -s 1 -e 10
+python parser_tululu.py -s 1 -e 10
 ```
 
 Если параметры `--start_id` и `--end_id` не указаны, по умолчанию будут скачиваться страницы с 1 по 10. В случае успешного выполнения скрипт не выводит никаких сообщений.
@@ -38,8 +38,40 @@ python tululu.py -s 1 -e 10
 Можно также изменять финальную папку, где окажутся все файлы:
 
 ```
-python tululu.py --dest_folder Название папки
+python parser_tululu.py --dest_folder Название папки
 
+```
+
+Запустить второй скрипт можно с множеством вариантов:
+
+Простой запуск без аргументов:
+
+```
+python parse_tululu_category.py
+```
+
+Запустить указывая начальную и концечную страницы для скачивания книг и их обложек:
+
+```
+python parse_tululu_category.py --start_page 1 --end_page 2
+```
+
+Запретить скачивание книг:
+
+```
+python parse_tululu_category.py --skip_txt
+```
+
+Запретить скачивание обложек:
+
+```
+python parse_tululu_category.py --skip_imgs
+```
+
+Можно изменять финальную папку, где окажутся все файлы:
+
+```
+python parse_tululu_category.py --dest_folder "Название папки"
 ```
 
 ## Доступные параметры:
