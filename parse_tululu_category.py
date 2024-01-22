@@ -5,7 +5,7 @@ import argparse
 from time import sleep
 
 import requests
-from urllib.parse import unquote, urljoin, urlsplit
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from save_tools import check_for_redirect,parse_book_page,download_txt,download_image
@@ -26,7 +26,7 @@ def main():
 
     pathlib.Path(args.dest_folder).mkdir(parents=True, exist_ok=True)
 
-    book_txt_url= "https://tululu.org/txt.php"
+    base_url = "https://tululu.org"
     template_url = "https://tululu.org/l55/"
 
     books_archive = []
@@ -46,7 +46,7 @@ def main():
 
                 book_link = book.select_one('a')
 
-                book_url = urljoin('https://tululu.org',book_link['href'])
+                book_url = urljoin(base_url, book_link['href'])
 
                 try:
 
@@ -68,6 +68,7 @@ def main():
 
                         book_number = book_id[1:]
 
+                        book_txt_url = "https://tululu.org/txt.php"
                         params = {"id": book_number}
 
                         book_response = requests.get(book_txt_url,params)
@@ -94,3 +95,12 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
+
