@@ -40,9 +40,9 @@ def main():
             check_for_redirect(response)
 
             soup = BeautifulSoup(response.text, 'lxml')
-            book_content = soup.select(".d_book")
+            book_elements = soup.select(".d_book")
 
-            for book in book_content:
+            for book in book_elements:
 
                 book_link = book.select_one('a')
 
