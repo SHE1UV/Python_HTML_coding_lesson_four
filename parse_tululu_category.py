@@ -13,9 +13,7 @@ from save_tools import check_for_redirect,parse_book_page,download_txt,download_
 
 def main():
 
-    parser = argparse.ArgumentParser(
-        description='Программа получает информацию по книгам с сайта http://tululu.org, а также скачивает их текст и картинку'
-    )
+    parser = argparse.ArgumentParser(description='Программа получает информацию по книгам с сайта http://tululu.org, а также скачивает их текст и картинку')
     parser.add_argument("-s", "--start_page", type=int, help="Начальная страница для скачивания книг", default=1)
     parser.add_argument("-e", "--end_page", type=int, help="Последняя страница для скачивания книг", default=10)
     parser.add_argument("--dest_folder", type=str, help="путь к каталогу с результатами парсинга: картинкам, книгам, JSON", default='result')
@@ -26,7 +24,6 @@ def main():
 
     pathlib.Path(args.dest_folder).mkdir(parents=True, exist_ok=True)
 
-    base_url = "https://tululu.org"
     template_url = "https://tululu.org/l55/"
 
     books_archive = []
@@ -43,37 +40,27 @@ def main():
             book_elements = soup.select(".d_book")
 
             for book in book_elements:
-
                 book_link = book.select_one('a')
-
-                book_url = urljoin(base_url, book_link['href'])
+                book_url = urljoin(url, book_link['href'])
 
                 try:
-
                     response = requests.get(book_url)
                     response.raise_for_status()
-
                     check_for_redirect(response)
 
                     book_parameters = parse_book_page(response,book_url)
-
                     books_archive.append(book_parameters)
-
 
                     if not args.skip_imgs:
                         download_image(book_parameters['image_url'],args.dest_folder)
 
                     if not args.skip_txt:
                         book_id = book_url.split('/')[3]
-
                         book_number = book_id[1:]
-
                         book_txt_url = "https://tululu.org/txt.php"
                         params = {"id": book_number}
-
                         book_response = requests.get(book_txt_url,params)
                         book_response.raise_for_status()
-
                         check_for_redirect(book_response)
                         download_txt(book_response,book_parameters['title'],args.dest_folder)
                 except requests.exceptions.ConnectionError:
@@ -88,7 +75,6 @@ def main():
             sleep(20)
 
     file_path = os.path.join(args.dest_folder,"books.json")
-
     with open(file_path, "w", encoding='utf8') as file:
         json.dump(books_archive, file, ensure_ascii=False)
 
