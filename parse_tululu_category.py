@@ -89,8 +89,8 @@ def main():
 
     file_path = os.path.join(args.dest_folder,"books.json")
 
-    with open(file_path, "w", encoding='utf8') as my_file:
-        json.dump(books_archive, my_file, ensure_ascii=False)
+    with open(file_path, "w", encoding='utf8') as file:
+        json.dump(books_archive, file, ensure_ascii=False)
 
 
 if __name__ == '__main__':
